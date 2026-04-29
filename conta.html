@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Conta - Horizon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="site-shell inner-page">
+      <header class="topbar page-topbar" aria-label="Navegacao principal">
+        <a class="brand" href="index.html" aria-label="Horizon inicio">
+          <span class="brand-mark"><span class="mark-lines"></span></span>
+          <span class="brand-text"><span>HORIZON</span><small>O TEU ESPACO INTERIOR</small></span>
+        </a>
+        <nav class="nav-links" aria-label="Seccoes">
+          <a href="index.html">Inicio</a>
+          <a href="sobre.html">Sobre</a>
+          <a href="audios.html">Audios</a>
+          <a href="planos.html">Planos</a>
+          <a href="blogue.html">Blogue</a>
+          <a href="contacto.html">Contacto</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="login active-login" href="conta.html">Conta</a>
+          <button class="button button-primary" type="button" data-logout>Sair</button>
+        </div>
+      </header>
+
+      <section class="page-hero compact">
+        <span class="eyebrow">CONTA</span>
+        <h1>Bem-vindo de volta.</h1>
+        <p>Entraste como <strong data-account-email>...</strong></p>
+      </section>
+
+      <section class="wide-panel account-panel">
+        <span class="line-icon shield-icon"></span>
+        <h2>A tua sessao esta ativa</h2>
+        <p>Esta pagina esta protegida no browser: sem uma sessao Supabase valida, o utilizador volta para a pagina de entrada.</p>
+        <a class="button button-secondary" href="audios.html">Ir para audios</a>
+      </section>
+    </main>
+    <script type="module" src="auth.js"></script>
+  </body>
+</html>

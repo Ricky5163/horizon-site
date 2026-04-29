@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Entrar - Horizon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="site-shell inner-page auth-page">
+      <header class="topbar page-topbar" aria-label="Navegação principal">
+        <a class="brand" href="index.html" aria-label="Horizon início">
+          <span class="brand-mark"><span class="mark-lines"></span></span>
+          <span class="brand-text"><span>HORIZON</span><small>O TEU ESPAÇO INTERIOR</small></span>
+        </a>
+        <nav class="nav-links" aria-label="Secções">
+          <a href="index.html">Início</a>
+          <a href="sobre.html">Sobre</a>
+          <a href="audios.html">Áudios</a>
+          <a href="planos.html">Planos</a>
+          <a href="blogue.html">Blogue</a>
+          <a href="contacto.html">Contacto</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="login active-login" href="entrar.html">Entrar</a>
+          <a class="button button-primary" href="planos.html">Começar agora</a>
+        </div>
+      </header>
+
+      <section class="login-panel" data-auth-view>
+        <span class="eyebrow">ENTRAR</span>
+        <h1>A tua conta Horizon.</h1>
+        <p>Entra, cria conta ou recupera a password usando Supabase Auth.</p>
+
+        <div class="auth-tabs" role="tablist" aria-label="Autenticacao">
+          <button class="auth-tab is-active" type="button" data-auth-tab="login">Entrar</button>
+          <button class="auth-tab" type="button" data-auth-tab="signup">Criar conta</button>
+        </div>
+
+        <form class="contact-form auth-form" data-auth-form>
+          <label>Email<input name="email" type="email" placeholder="teu@email.com" autocomplete="email" required /></label>
+          <label>Password<input name="password" type="password" placeholder="A tua password" autocomplete="current-password" minlength="6" required /></label>
+          <button class="button button-primary" type="submit" data-auth-submit>Entrar</button>
+          <button class="auth-link" type="button" data-reset-password>Recuperar password</button>
+          <p class="auth-message" data-auth-message aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+    <script type="module" src="auth.js"></script>
+  </body>
+</html>
