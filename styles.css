@@ -190,7 +190,7 @@ button {
 
 .brand-text {
   display: grid;
-  gap: 7px;
+  gap: 9px;
   justify-items: start;
   white-space: nowrap;
 }
@@ -205,8 +205,8 @@ button {
 .brand .brand-text small {
   display: block;
   color: rgba(255, 255, 255, 0.78);
-  font-size: 8px;
-  letter-spacing: 3.1px;
+  font-size: 10px;
+  letter-spacing: 2.7px;
   line-height: 1.2;
   text-align: left;
 }
