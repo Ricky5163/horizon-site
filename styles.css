@@ -1166,6 +1166,14 @@ button {
   margin-top: 0;
 }
 
+.login-panel .contact-form {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
 .auth-form .button:disabled {
   cursor: wait;
   opacity: 0.72;

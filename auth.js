@@ -8,6 +8,8 @@ const authForm = document.querySelector('[data-auth-form]');
 const authMessage = document.querySelector('[data-auth-message]');
 const submitButton = document.querySelector('[data-auth-submit]');
 const resetButton = document.querySelector('[data-reset-password]');
+const emailInput = document.querySelector('input[name="email"]');
+const passwordInput = document.querySelector('input[name="password"]');
 const tabs = document.querySelectorAll('[data-auth-tab]');
 const logoutButton = document.querySelector('[data-logout]');
 const accountEmail = document.querySelector('[data-account-email]');
@@ -35,6 +37,9 @@ const updateMode = (mode) => {
   tabs.forEach((tab) => {
     tab.classList.toggle('is-active', tab.dataset.authTab === mode);
   });
+  if (passwordInput) {
+    passwordInput.autocomplete = mode === 'login' ? 'current-password' : 'new-password';
+  }
   setLoading(false);
   setMessage('');
 };
@@ -95,7 +100,7 @@ resetButton?.addEventListener('click', async () => {
     return;
   }
 
-  const email = authForm?.email.value.trim();
+  const email = emailInput?.value.trim();
   if (!email) {
     setMessage('Escreve o teu email primeiro.', 'error');
     return;
@@ -126,4 +131,3 @@ if (logoutButton) {
 }
 
 redirectIfLoggedIn();
-
