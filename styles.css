@@ -164,8 +164,8 @@ button {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: 0;
+  justify-content: flex-start;
+  gap: 14px;
   width: max-content;
   min-width: 0;
 }
@@ -195,10 +195,26 @@ button {
 }
 
 .brand-text {
-  display: none;
-  gap: 4px;
-  justify-items: center;
+  display: grid;
+  gap: 5px;
+  justify-items: start;
   white-space: nowrap;
+}
+
+.brand .brand-text span {
+  display: block;
+  font-size: 25px;
+  letter-spacing: 10px;
+  line-height: 0.9;
+}
+
+.brand .brand-text small {
+  display: block;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 6px;
+  letter-spacing: 2.9px;
+  line-height: 1.2;
+  text-align: left;
 }
 
 .brand-text span,
