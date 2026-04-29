@@ -162,10 +162,10 @@ button {
 
 .brand {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+  gap: 0;
   width: max-content;
   min-width: 0;
 }
@@ -195,7 +195,7 @@ button {
 }
 
 .brand-text {
-  display: grid;
+  display: none;
   gap: 4px;
   justify-items: center;
   white-space: nowrap;

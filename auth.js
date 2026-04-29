@@ -20,6 +20,8 @@ const isConfigured = () =>
   !SUPABASE_URL.includes('YOUR-PROJECT-REF') &&
   !SUPABASE_ANON_KEY.includes('YOUR-SUPABASE-ANON-KEY');
 
+const pageUrl = (path) => new URL(path, window.location.href).href;
+
 const setMessage = (message, type = 'info') => {
   if (!authMessage) return;
   authMessage.textContent = message;
@@ -75,7 +77,7 @@ authForm?.addEventListener('submit', async (event) => {
       : supabase.auth.signUp({
           email,
           password,
-          options: { emailRedirectTo: `${window.location.origin}/conta.html` },
+          options: { emailRedirectTo: pageUrl('conta.html') },
         });
 
   const { error } = await action;
@@ -107,7 +109,7 @@ resetButton?.addEventListener('click', async () => {
   }
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${window.location.origin}/entrar.html`,
+    redirectTo: pageUrl('entrar.html'),
   });
 
   setMessage(error ? error.message : 'Enviamos um email para recuperares a password.', error ? 'error' : 'success');
