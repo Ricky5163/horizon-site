@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=admin-20260513" />
+    <link rel="stylesheet" href="styles.css?v=user-dashboard-20260513" />
   </head>
   <body>
     <main class="site-shell inner-page">
@@ -30,20 +30,72 @@
         </div>
       </header>
 
-      <section class="page-hero compact">
-        <span class="eyebrow">CONTA</span>
-        <h1>Bem-vindo de volta.</h1>
-        <p>Entraste como <strong data-account-email>...</strong></p>
+      <section class="account-hero">
+        <div>
+          <span class="eyebrow">CONTA</span>
+          <h1>O teu espaco interior.</h1>
+          <p>Bem-vindo, <strong data-account-name>...</strong>. A tua sessao esta pronta para continuares a ouvir, guardar e acompanhar a tua pratica.</p>
+        </div>
+        <aside class="account-card profile-card">
+          <span class="line-icon shield-icon"></span>
+          <strong data-account-email>...</strong>
+          <span data-account-status>Email confirmado</span>
+          <small>Membro desde <span data-account-since>...</span></small>
+        </aside>
       </section>
 
-      <section class="wide-panel account-panel">
-        <span class="line-icon shield-icon"></span>
-        <h2>A tua sessao esta ativa</h2>
-        <p>Esta pagina esta protegida no browser: sem uma sessao Supabase valida, o utilizador volta para a pagina de entrada.</p>
-        <a class="button button-primary" href="admin.html" data-admin-link hidden>Abrir dashboard admin</a>
-        <a class="button button-secondary" href="audios.html">Ir para audios</a>
+      <section class="account-grid">
+        <article class="account-card continue-card">
+          <span class="eyebrow">CONTINUAR</span>
+          <h2>Respiracao Profunda</h2>
+          <p>Volta a uma pratica curta para recentrar o corpo e baixar o ruido mental.</p>
+          <div class="progress-track"><span style="width: 62%"></span></div>
+          <a class="button button-primary" href="audios.html">Continuar audio</a>
+        </article>
+
+        <article class="account-card stats-card">
+          <span class="line-icon headphones-icon"></span>
+          <div>
+            <strong>3</strong>
+            <span>audios ouvidos</span>
+          </div>
+          <div>
+            <strong>47 min</strong>
+            <span>tempo de pratica</span>
+          </div>
+          <div>
+            <strong>7 dias</strong>
+            <span>sequencia sugerida</span>
+          </div>
+        </article>
+
+        <article class="account-card plan-card">
+          <span class="eyebrow">PLANO</span>
+          <h2>Horizon Free</h2>
+          <p>Acesso inicial a praticas essenciais. Em breve vais poder gerir subscricao, favoritos e historico.</p>
+          <a class="button button-secondary" href="planos.html">Ver planos</a>
+        </article>
+
+        <article class="account-card quick-card">
+          <span class="eyebrow">ATALHOS</span>
+          <a href="audios.html"><span class="tiny-icon moon-icon"></span>Biblioteca de audios</a>
+          <a href="contacto.html"><span class="tiny-icon heart-icon"></span>Falar com suporte</a>
+          <a href="admin.html" data-admin-link hidden><span class="tiny-icon shield-icon"></span>Dashboard admin</a>
+        </article>
+      </section>
+
+      <section class="account-card saved-section">
+        <div>
+          <span class="eyebrow">PARA TI</span>
+          <h2>Praticas recomendadas.</h2>
+        </div>
+        <div class="saved-list">
+          <a href="audios.html"><span class="tiny-icon moon-icon"></span><strong>Dormir em Paz</strong><small>25 min</small></a>
+          <a href="audios.html"><span class="tiny-icon cloud-icon"></span><strong>Reduzir Ansiedade</strong><small>12 min</small></a>
+          <a href="audios.html"><span class="tiny-icon focus-icon"></span><strong>Foco e Clareza</strong><small>15 min</small></a>
+        </div>
       </section>
     </main>
-    <script type="module" src="auth.js"></script>
+    <script type="module" src="auth.js?v=session-dashboard-20260513"></script>
   </body>
 </html>

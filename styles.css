@@ -1250,6 +1250,192 @@ button {
   gap: 14px;
 }
 
+.account-hero,
+.account-grid,
+.saved-section {
+  max-width: 1120px;
+  margin-inline: auto;
+}
+
+.account-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
+  gap: 28px;
+  align-items: end;
+  margin-top: 82px;
+  margin-bottom: 24px;
+}
+
+.account-hero h1 {
+  max-width: 680px;
+  margin: 14px 0 18px;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(54px, 6vw, 82px);
+  font-weight: 600;
+  line-height: 0.98;
+}
+
+.account-hero p {
+  max-width: 650px;
+  margin: 0;
+  color: #c3cee3;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.account-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(4, 21, 48, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.profile-card {
+  display: grid;
+  gap: 12px;
+  padding: 28px;
+}
+
+.profile-card strong,
+.profile-card span,
+.profile-card small {
+  overflow-wrap: anywhere;
+}
+
+.profile-card strong {
+  font-size: 16px;
+}
+
+.profile-card span {
+  color: #9ff0c4;
+  font-weight: 700;
+}
+
+.profile-card small,
+.quick-card a small,
+.saved-list small {
+  color: var(--muted);
+}
+
+.account-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 18px;
+}
+
+.continue-card,
+.plan-card,
+.quick-card {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  padding: 30px;
+}
+
+.continue-card {
+  min-height: 275px;
+  background:
+    radial-gradient(circle at 78% 22%, rgba(255, 232, 199, 0.18), transparent 9rem),
+    linear-gradient(180deg, rgba(21, 72, 137, 0.72), rgba(4, 21, 48, 0.68));
+}
+
+.continue-card h2,
+.plan-card h2,
+.saved-section h2 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.continue-card p,
+.plan-card p {
+  max-width: 470px;
+  margin: 0;
+  color: #c3cee3;
+  line-height: 1.75;
+}
+
+.progress-track {
+  height: 9px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(2, 11, 28, 0.68);
+}
+
+.progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--blue-500), #fff0dc);
+}
+
+.stats-card {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 18px;
+  padding: 30px;
+}
+
+.stats-card .line-icon {
+  grid-row: span 3;
+}
+
+.stats-card div {
+  display: grid;
+  gap: 5px;
+}
+
+.stats-card strong {
+  color: var(--blue-400);
+  font-size: 24px;
+}
+
+.stats-card span,
+.quick-card a {
+  color: #dbe7ff;
+}
+
+.quick-card a,
+.saved-list a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quick-card a {
+  min-height: 42px;
+  border-bottom: 1px solid rgba(126, 174, 255, 0.13);
+}
+
+.quick-card a:last-child {
+  border-bottom: 0;
+}
+
+.saved-section {
+  display: grid;
+  gap: 22px;
+  margin-top: 18px;
+  padding: 30px;
+}
+
+.saved-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.saved-list a {
+  min-height: 72px;
+  padding: 16px;
+  border: 1px solid rgba(126, 174, 255, 0.18);
+  border-radius: 10px;
+  background: rgba(2, 11, 28, 0.42);
+}
+
+.saved-list strong {
+  margin-right: auto;
+}
+
 .admin-page .page-hero {
   margin-bottom: 34px;
 }
@@ -1375,6 +1561,12 @@ button {
     grid-template-columns: 1fr;
   }
 
+  .account-hero,
+  .account-grid,
+  .saved-list {
+    grid-template-columns: 1fr;
+  }
+
   .admin-layout {
     grid-template-columns: 1fr;
   }
@@ -1455,6 +1647,10 @@ button {
     text-align: left;
   }
 
+  .account-hero {
+    margin-top: 54px;
+  }
+
   .page-hero h1 {
     font-size: 48px;
   }
@@ -1473,6 +1669,14 @@ button {
 
   .price-panel.featured {
     transform: none;
+  }
+
+  .account-card,
+  .continue-card,
+  .plan-card,
+  .quick-card,
+  .saved-section {
+    padding: 24px;
   }
 }
 

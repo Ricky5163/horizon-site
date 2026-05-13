@@ -13,6 +13,9 @@ const passwordInput = document.querySelector('input[name="password"]');
 const tabs = document.querySelectorAll('[data-auth-tab]');
 const logoutButton = document.querySelector('[data-logout]');
 const accountEmail = document.querySelector('[data-account-email]');
+const accountName = document.querySelector('[data-account-name]');
+const accountSince = document.querySelector('[data-account-since]');
+const accountStatus = document.querySelector('[data-account-status]');
 const adminLink = document.querySelector('[data-admin-link]');
 
 let authMode = 'login';
@@ -26,6 +29,44 @@ const siteOrigin = window.location.hostname === 'localhost' || window.location.h
   : 'https://horizonaudios.com';
 const pageUrl = (path) => new URL(path, `${siteOrigin}/`).href;
 const isAdminEmail = (email = '') => SUPABASE_ADMIN_EMAILS.map((item) => item.toLowerCase()).includes(email.toLowerCase());
+const displayNameFromEmail = (email = '') => email.split('@')[0]?.replace(/[._-]+/g, ' ') || 'utilizador';
+const wait = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
+
+const completeAuthRedirect = async () => {
+  if (!isConfigured()) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  const errorDescription = params.get('error_description');
+
+  if (errorDescription) {
+    setMessage(decodeURIComponent(errorDescription), 'error');
+    return;
+  }
+
+  if (!code) return;
+
+  const { error } = await supabase.auth.exchangeCodeForSession(code);
+  if (error) {
+    setMessage(error.message, 'error');
+    return;
+  }
+
+  window.history.replaceState({}, document.title, window.location.pathname);
+};
+
+const waitForImplicitSession = async () => {
+  if (!window.location.hash.includes('access_token')) return;
+
+  for (let attempt = 0; attempt < 12; attempt += 1) {
+    const { data } = await supabase.auth.getSession();
+    if (data.session) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+      return;
+    }
+    await wait(120);
+  }
+};
 
 const setMessage = (message, type = 'info') => {
   if (!authMessage) return;
@@ -53,6 +94,8 @@ const updateMode = (mode) => {
 
 const redirectIfLoggedIn = async () => {
   if (!authView || !isConfigured()) return;
+  await completeAuthRedirect();
+  await waitForImplicitSession();
   const { data } = await supabase.auth.getSession();
   if (data.session) window.location.href = isAdminEmail(data.session.user.email) ? 'admin.html' : 'conta.html';
 };
@@ -121,6 +164,8 @@ resetButton?.addEventListener('click', async () => {
 });
 
 if (logoutButton) {
+  await completeAuthRedirect();
+  await waitForImplicitSession();
   const { data } = isConfigured() ? await supabase.auth.getSession() : { data: { session: null } };
 
   if (!isConfigured()) {
@@ -129,6 +174,19 @@ if (logoutButton) {
     window.location.href = 'entrar.html';
   } else {
     accountEmail.textContent = data.session.user.email;
+    if (accountName) accountName.textContent = displayNameFromEmail(data.session.user.email);
+    if (accountSince) {
+      accountSince.textContent = new Intl.DateTimeFormat('pt-PT', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+      }).format(new Date(data.session.user.created_at));
+    }
+    if (accountStatus) {
+      accountStatus.textContent = data.session.user.email_confirmed_at || data.session.user.confirmed_at
+        ? 'Email confirmado'
+        : 'Email por confirmar';
+    }
     if (adminLink && isAdminEmail(data.session.user.email)) adminLink.hidden = false;
   }
 
