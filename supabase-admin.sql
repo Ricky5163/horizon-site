@@ -20,22 +20,22 @@ using (is_published = true);
 create policy "Admins can insert audios"
 on public.audios for insert
 with check (
-  auth.jwt() ->> 'email' in ('liedsondias1957@gmail.com', 'admin@horizon.pt')
+  auth.jwt() ->> 'email' in ('admin@horizon.pt')
 );
 
 create policy "Admins can update audios"
 on public.audios for update
 using (
-  auth.jwt() ->> 'email' in ('liedsondias1957@gmail.com', 'admin@horizon.pt')
+  auth.jwt() ->> 'email' in ('admin@horizon.pt')
 )
 with check (
-  auth.jwt() ->> 'email' in ('liedsondias1957@gmail.com', 'admin@horizon.pt')
+  auth.jwt() ->> 'email' in ('admin@horizon.pt')
 );
 
 create policy "Admins can delete audios"
 on public.audios for delete
 using (
-  auth.jwt() ->> 'email' in ('liedsondias1957@gmail.com', 'admin@horizon.pt')
+  auth.jwt() ->> 'email' in ('admin@horizon.pt')
 );
 
 insert into storage.buckets (id, name, public)
@@ -50,5 +50,5 @@ create policy "Admins can upload audio files"
 on storage.objects for insert
 with check (
   bucket_id = 'audios'
-  and auth.jwt() ->> 'email' in ('liedsondias1957@gmail.com', 'admin@horizon.pt')
+  and auth.jwt() ->> 'email' in ('admin@horizon.pt')
 );
