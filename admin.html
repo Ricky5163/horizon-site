@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin - Horizon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css?v=admin-20260513" />
+  </head>
+  <body>
+    <main class="site-shell inner-page admin-page">
+      <header class="topbar page-topbar" aria-label="Navegacao principal">
+        <a class="brand" href="index.html" aria-label="Horizon inicio">
+          <span class="brand-mark"><span class="mark-lines"></span></span>
+          <span class="brand-text"><span>HORIZON</span><small>O TEU ESPACO INTERIOR</small></span>
+        </a>
+        <nav class="nav-links" aria-label="Seccoes">
+          <a href="index.html">Inicio</a>
+          <a href="sobre.html">Sobre</a>
+          <a href="audios.html">Audios</a>
+          <a href="planos.html">Planos</a>
+          <a href="blogue.html">Blogue</a>
+          <a href="contacto.html">Contacto</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="login active-login" href="admin.html">Admin</a>
+          <button class="button button-primary" type="button" data-logout>Sair</button>
+        </div>
+      </header>
+
+      <section class="page-hero compact">
+        <span class="eyebrow">ADMIN</span>
+        <h1>Adicionar audio.</h1>
+        <p>Publica uma nova pratica na biblioteca Horizon. O painel grava os dados no Supabase e protege o acesso por email admin.</p>
+      </section>
+
+      <section class="admin-layout">
+        <form class="contact-form admin-form" data-admin-form>
+          <div class="form-row two">
+            <label>Titulo<input name="title" type="text" placeholder="Respiracao para acalmar" required /></label>
+            <label>Duracao em minutos<input name="duration_minutes" type="number" min="1" max="240" placeholder="12" required /></label>
+          </div>
+          <div class="form-row two">
+            <label>Categoria
+              <select name="category" required>
+                <option value="Sono">Sono</option>
+                <option value="Ansiedade">Ansiedade</option>
+                <option value="Foco">Foco</option>
+                <option value="Autoestima">Autoestima</option>
+                <option value="Gratidao">Gratidao</option>
+              </select>
+            </label>
+            <label>Imagem visual
+              <select name="cover_style" required>
+                <option value="card-night">Noite</option>
+                <option value="card-river">Rio</option>
+                <option value="card-peak">Montanha</option>
+                <option value="card-sunset">Por do sol</option>
+              </select>
+            </label>
+          </div>
+          <label>Descricao<textarea name="description" rows="4" placeholder="Uma pratica curta para voltar ao corpo e respirar melhor."></textarea></label>
+          <label>URL do audio<input name="audio_url" type="url" placeholder="https://..." /></label>
+          <label>Ou carregar ficheiro de audio<input name="audio_file" type="file" accept="audio/*" /></label>
+          <label class="check-row"><input name="is_published" type="checkbox" checked /> Publicar na biblioteca</label>
+          <button class="button button-primary" type="submit" data-admin-submit>Guardar audio</button>
+          <p class="auth-message" data-admin-message aria-live="polite"></p>
+        </form>
+
+        <aside class="content-panel admin-aside">
+          <span class="line-icon headphones-icon"></span>
+          <h2>Conta admin</h2>
+          <p>Entraste como <strong data-admin-email>...</strong></p>
+          <p>Emails autorizados: <span data-admin-allowlist>...</span></p>
+          <a class="button button-secondary" href="audios.html">Ver biblioteca</a>
+        </aside>
+      </section>
+    </main>
+    <script type="module" src="admin.js"></script>
+  </body>
+</html>

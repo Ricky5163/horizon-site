@@ -1,5 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_ANON_KEY, SUPABASE_URL } from './supabase-config.js';
+import { SUPABASE_ADMIN_EMAILS, SUPABASE_ANON_KEY, SUPABASE_URL } from './supabase-config.js';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -13,6 +13,7 @@ const passwordInput = document.querySelector('input[name="password"]');
 const tabs = document.querySelectorAll('[data-auth-tab]');
 const logoutButton = document.querySelector('[data-logout]');
 const accountEmail = document.querySelector('[data-account-email]');
+const adminLink = document.querySelector('[data-admin-link]');
 
 let authMode = 'login';
 
@@ -21,6 +22,7 @@ const isConfigured = () =>
   !SUPABASE_ANON_KEY.includes('YOUR-SUPABASE-ANON-KEY');
 
 const pageUrl = (path) => new URL(path, window.location.href).href;
+const isAdminEmail = (email = '') => SUPABASE_ADMIN_EMAILS.map((item) => item.toLowerCase()).includes(email.toLowerCase());
 
 const setMessage = (message, type = 'info') => {
   if (!authMessage) return;
@@ -49,7 +51,7 @@ const updateMode = (mode) => {
 const redirectIfLoggedIn = async () => {
   if (!authView || !isConfigured()) return;
   const { data } = await supabase.auth.getSession();
-  if (data.session) window.location.href = 'conta.html';
+  if (data.session) window.location.href = isAdminEmail(data.session.user.email) ? 'admin.html' : 'conta.html';
 };
 
 tabs.forEach((tab) => {
@@ -93,7 +95,7 @@ authForm?.addEventListener('submit', async (event) => {
     return;
   }
 
-  window.location.href = 'conta.html';
+  window.location.href = isAdminEmail(email) ? 'admin.html' : 'conta.html';
 });
 
 resetButton?.addEventListener('click', async () => {
@@ -124,6 +126,7 @@ if (logoutButton) {
     window.location.href = 'entrar.html';
   } else {
     accountEmail.textContent = data.session.user.email;
+    if (adminLink && isAdminEmail(data.session.user.email)) adminLink.hidden = false;
   }
 
   logoutButton.addEventListener('click', async () => {

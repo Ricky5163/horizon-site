@@ -1113,6 +1113,7 @@ button {
 }
 
 .contact-form input,
+.contact-form select,
 .contact-form textarea {
   width: 100%;
   color: var(--text);
@@ -1124,7 +1125,33 @@ button {
   padding: 14px 15px;
 }
 
+.contact-form select {
+  appearance: none;
+  background:
+    linear-gradient(45deg, transparent 50%, var(--blue-300) 50%) right 17px center / 7px 7px no-repeat,
+    linear-gradient(135deg, var(--blue-300) 50%, transparent 50%) right 12px center / 7px 7px no-repeat,
+    rgba(2, 11, 28, 0.66);
+}
+
+.contact-form input[type="file"] {
+  color: #c3cee3;
+}
+
+.contact-form input[type="file"]::file-selector-button {
+  min-height: 36px;
+  margin-right: 12px;
+  color: #fff;
+  border: 1px solid rgba(126, 174, 255, 0.32);
+  border-radius: 999px;
+  background: rgba(49, 113, 209, 0.45);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  padding: 0 14px;
+}
+
 .contact-form input:focus,
+.contact-form select:focus,
 .contact-form textarea:focus {
   border-color: var(--blue-400);
   box-shadow: 0 0 0 4px rgba(74, 150, 255, 0.12);
@@ -1223,6 +1250,60 @@ button {
   gap: 14px;
 }
 
+.admin-page .page-hero {
+  margin-bottom: 34px;
+}
+
+.admin-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.55fr);
+  gap: 18px;
+  max-width: 1120px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.admin-form {
+  margin: 0;
+}
+
+.form-row {
+  display: grid;
+  gap: 18px;
+}
+
+.form-row.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.check-row {
+  display: flex !important;
+  align-items: center;
+  gap: 12px !important;
+  color: #dbe7ff !important;
+}
+
+.check-row input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--blue-400);
+}
+
+.admin-aside {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-aside h2,
+.admin-aside p {
+  margin: 0;
+}
+
+.admin-aside .button {
+  width: fit-content;
+  margin-top: 8px;
+}
+
 @media (max-width: 1120px) {
   .topbar {
     grid-template-columns: 1fr;
@@ -1291,6 +1372,10 @@ button {
   }
 
   .contact-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-layout {
     grid-template-columns: 1fr;
   }
 }
@@ -1380,6 +1465,10 @@ button {
   .login-panel,
   .contact-form {
     padding: 24px;
+  }
+
+  .form-row.two {
+    grid-template-columns: 1fr;
   }
 
   .price-panel.featured {
