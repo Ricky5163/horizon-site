@@ -21,7 +21,10 @@ const isConfigured = () =>
   !SUPABASE_URL.includes('YOUR-PROJECT-REF') &&
   !SUPABASE_ANON_KEY.includes('YOUR-SUPABASE-ANON-KEY');
 
-const pageUrl = (path) => new URL(path, window.location.href).href;
+const siteOrigin = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? window.location.origin
+  : 'https://horizonaudios.com';
+const pageUrl = (path) => new URL(path, `${siteOrigin}/`).href;
 const isAdminEmail = (email = '') => SUPABASE_ADMIN_EMAILS.map((item) => item.toLowerCase()).includes(email.toLowerCase());
 
 const setMessage = (message, type = 'info') => {
