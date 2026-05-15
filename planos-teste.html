@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Planos Teste - Horizon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css?v=plan-features-20260515" />
+  </head>
+  <body data-stripe-mode="test">
+    <main class="site-shell inner-page plans-page">
+      <header class="topbar page-topbar" aria-label="Navegacao principal">
+        <a class="brand" href="index.html" aria-label="Horizon inicio">
+          <span class="brand-mark"><span class="mark-lines"></span></span>
+          <span class="brand-text"><span>HORIZON</span><small>O TEU ESPACO INTERIOR</small></span>
+        </a>
+        <nav class="nav-links" aria-label="Seccoes">
+          <a href="index.html">Inicio</a>
+          <a href="sobre.html">Sobre</a>
+          <a href="audios.html">Audios</a>
+          <a class="active" href="planos.html">Planos</a>
+          <a href="blogue.html">Blogue</a>
+          <a href="contacto.html">Contacto</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="login" href="entrar.html">Entrar</a>
+          <a class="button button-primary" href="planos.html">Voltar aos planos</a>
+        </div>
+      </header>
+
+      <section class="page-hero compact plans-hero">
+        <span class="eyebrow">AMBIENTE DE TESTE</span>
+        <h1>Testa os pagamentos sem usar o checkout real.</h1>
+        <p>Esta pagina usa apenas Payment Links de teste do Stripe. Serve para validar webhook, Supabase, email e dashboard antes de ativar em producao.</p>
+      </section>
+
+      <section class="billing-strip" aria-label="Pagamento de teste">
+        <span class="line-icon shield-icon"></span>
+        <div>
+          <strong>Stripe em modo teste</strong>
+          <p>Usa cartoes de teste do Stripe. Nenhum pagamento real deve ser cobrado nesta pagina.</p>
+        </div>
+      </section>
+
+      <section class="pricing-grid enhanced-pricing">
+        <article class="price-panel plan-card-option featured">
+          <span class="plan-badge">Teste mensal</span>
+          <span class="eyebrow">HORIZON PLUS</span>
+          <h2>9,99 EUR <small>/ mes</small></h2>
+          <p>Valida o fluxo mensal completo antes de ligares o link real.</p>
+          <ul class="plan-benefits">
+            <li>Checkout Stripe em teste</li>
+            <li>Webhook de confirmacao</li>
+            <li>Atualizacao do dashboard</li>
+            <li>Email automatico via Resend</li>
+          </ul>
+          <button class="button button-primary" type="button" data-stripe-plan="plus">Testar mensal</button>
+        </article>
+
+        <article class="price-panel plan-card-option">
+          <span class="plan-badge">Teste anual</span>
+          <span class="eyebrow">ANUAL</span>
+          <h2>79,99 EUR <small>/ ano</small></h2>
+          <p>Valida o fluxo anual com o mesmo comportamento do plano real.</p>
+          <ul class="plan-benefits">
+            <li>Checkout Stripe em teste</li>
+            <li>Plano anual no Supabase</li>
+            <li>Email de confirmacao</li>
+            <li>Sem cobranca real</li>
+          </ul>
+          <button class="button button-secondary" type="button" data-stripe-plan="annual">Testar anual</button>
+        </article>
+      </section>
+
+      <p class="auth-message plans-message" data-plan-message aria-live="polite"></p>
+    </main>
+    <script type="module" src="nav-session.js?v=20260513"></script>
+    <script type="module" src="planos.js?v=stripe-test-20260515"></script>
+  </body>
+</html>

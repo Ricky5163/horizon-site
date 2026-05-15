@@ -61,6 +61,16 @@ const verifyStripeSignature = async (payload, signatureHeader, webhookSecret) =>
   return signatures.some((signature) => timingSafeEqual(signature, expected));
 };
 
+const verifyAnyStripeSignature = async (payload, signatureHeader, env) => {
+  const secrets = [env.STRIPE_WEBHOOK_SECRET, env.STRIPE_TEST_WEBHOOK_SECRET].filter(Boolean);
+
+  for (const secret of secrets) {
+    if (await verifyStripeSignature(payload, signatureHeader, secret)) return true;
+  }
+
+  return false;
+};
+
 const encryptionKey = async (secret) => {
   const digest = await crypto.subtle.digest('SHA-256', textEncoder.encode(secret));
   return crypto.subtle.importKey('raw', digest, { name: 'AES-GCM' }, false, ['encrypt']);
@@ -270,7 +280,7 @@ export default {
 
     const payload = await request.text();
     const stripeSignature = request.headers.get('Stripe-Signature') || '';
-    const verified = await verifyStripeSignature(payload, stripeSignature, env.STRIPE_WEBHOOK_SECRET);
+    const verified = await verifyAnyStripeSignature(payload, stripeSignature, env);
     if (!verified) return json({ error: 'Invalid Stripe signature' }, 400);
 
     const event = JSON.parse(payload);

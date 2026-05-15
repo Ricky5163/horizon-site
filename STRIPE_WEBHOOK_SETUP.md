@@ -52,6 +52,7 @@ Em Cloudflare Workers > Settings > Variables and Secrets, adiciona como **Secret
 SUPABASE_URL
 SUPABASE_SERVICE_ROLE_KEY
 STRIPE_WEBHOOK_SECRET
+STRIPE_TEST_WEBHOOK_SECRET
 DATA_ENCRYPTION_KEY
 RESEND_API_KEY
 ```
@@ -99,6 +100,14 @@ Depois copia o **Signing secret** do webhook e coloca em:
 STRIPE_WEBHOOK_SECRET
 ```
 
+Para testar antes de usar pagamentos reais, muda o Stripe para **Test mode**, cria outro webhook endpoint com o mesmo URL e copia o signing secret de teste para:
+
+```text
+STRIPE_TEST_WEBHOOK_SECRET
+```
+
+O Worker aceita o secret real e o secret de teste, por isso podes validar o fluxo primeiro e manter a configuracao real preparada.
+
 ## 5. Resend
 
 Confirma que o dominio `horizonaudios.com` esta verificado no Resend e que podes enviar com:
@@ -116,9 +125,12 @@ subject: Confirmacao da tua subscricao Horizon
 
 ## 6. Teste
 
-1. Entra no site com uma conta de utilizador.
-2. Compra o plano mensal ou anual.
-3. Stripe chama o Worker.
-4. Supabase atualiza `user_subscriptions`.
-5. Resend envia o email de confirmacao.
-6. O dashboard passa a mostrar Plus ou Anual.
+1. No Stripe em **Test mode**, cria dois Payment Links de teste: Plus mensal e Anual.
+2. Cola os links de teste em `stripe-config.js`, dentro de `STRIPE_PAYMENT_LINKS.test`.
+3. Abre `https://horizonaudios.com/planos-teste.html`.
+4. Entra no site com uma conta de utilizador.
+5. Compra com um cartao de teste Stripe, por exemplo `4242 4242 4242 4242`.
+6. Stripe chama o Worker.
+7. Supabase atualiza `user_subscriptions`.
+8. Resend envia o email de confirmacao.
+9. O dashboard passa a mostrar Plus ou Anual.
