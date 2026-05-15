@@ -17,8 +17,35 @@ const accountName = document.querySelector('[data-account-name]');
 const accountSince = document.querySelector('[data-account-since]');
 const accountStatus = document.querySelector('[data-account-status]');
 const adminLink = document.querySelector('[data-admin-link]');
+const accountPlanTitle = document.querySelector('[data-account-plan-title]');
+const accountPlanDescription = document.querySelector('[data-account-plan-description]');
+const accountPlanPill = document.querySelector('[data-account-plan-pill]');
+const accountPlanAction = document.querySelector('[data-account-plan-action]');
+const checkoutMessage = document.querySelector('[data-checkout-message]');
+const membershipFeatures = document.querySelectorAll('[data-plan-feature]');
 
 let authMode = 'login';
+
+const planCopy = {
+  free: {
+    title: 'Horizon Free',
+    pill: 'Free',
+    description: 'Acesso inicial a praticas essenciais. Faz upgrade para desbloquear a biblioteca completa.',
+    action: 'Ver planos',
+  },
+  plus: {
+    title: 'Horizon Plus',
+    pill: 'Plus ativo',
+    description: 'Biblioteca completa, novas praticas semanais, favoritos e historico de pratica.',
+    action: 'Gerir plano',
+  },
+  annual: {
+    title: 'Horizon Anual',
+    pill: 'Anual ativo',
+    description: 'Tudo do Horizon Plus, com melhor valor anual, programas especiais e prioridade em novidades.',
+    action: 'Gerir plano',
+  },
+};
 
 const isConfigured = () =>
   !SUPABASE_URL.includes('YOUR-PROJECT-REF') &&
@@ -31,6 +58,7 @@ const pageUrl = (path) => new URL(path, `${siteOrigin}/`).href;
 const isAdminEmail = (email = '') => SUPABASE_ADMIN_EMAILS.map((item) => item.toLowerCase()).includes(email.toLowerCase());
 const displayNameFromEmail = (email = '') => email.split('@')[0]?.replace(/[._-]+/g, ' ') || 'utilizador';
 const wait = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
+const normalizePlan = (plan) => (['plus', 'annual'].includes(plan) ? plan : 'free');
 const afterLoginPath = (email = '') => {
   const pendingPlan = localStorage.getItem('horizon_checkout_plan');
   if (pendingPlan && !isAdminEmail(email)) {
@@ -39,6 +67,57 @@ const afterLoginPath = (email = '') => {
   }
 
   return isAdminEmail(email) ? 'admin.html' : 'conta.html';
+};
+
+const planRank = (plan) => {
+  if (plan === 'annual') return 2;
+  if (plan === 'plus') return 1;
+  return 0;
+};
+
+const resolveAccountPlan = () => {
+  const params = new URLSearchParams(window.location.search);
+  const checkoutStatus = params.get('checkout');
+  const pendingPlan = normalizePlan(localStorage.getItem('horizon_checkout_plan'));
+
+  if (checkoutStatus === 'success' && pendingPlan !== 'free') {
+    localStorage.setItem('horizon_active_plan', pendingPlan);
+    localStorage.removeItem('horizon_checkout_plan');
+    window.history.replaceState({}, document.title, window.location.pathname);
+    return { plan: pendingPlan, justPaid: true };
+  }
+
+  return { plan: normalizePlan(localStorage.getItem('horizon_active_plan')), justPaid: false };
+};
+
+const updateMembershipView = () => {
+  if (!accountPlanTitle) return;
+
+  const { plan, justPaid } = resolveAccountPlan();
+  const copy = planCopy[plan];
+
+  accountPlanTitle.textContent = copy.title;
+  accountPlanDescription.textContent = copy.description;
+  if (accountPlanPill) accountPlanPill.textContent = copy.pill;
+  if (accountPlanAction) {
+    accountPlanAction.textContent = copy.action;
+    accountPlanAction.href = plan === 'free' ? 'planos.html' : 'contacto.html';
+  }
+
+  if (checkoutMessage) {
+    checkoutMessage.textContent = justPaid
+      ? 'Pagamento concluido. O teu acesso foi atualizado neste dispositivo.'
+      : plan === 'free'
+        ? 'Estas no plano gratuito.'
+        : 'A tua subscricao esta ativa neste dashboard.';
+  }
+
+  membershipFeatures.forEach((feature) => {
+    const requiredPlan = feature.dataset.planFeature;
+    const locked = planRank(plan) < planRank(requiredPlan);
+    feature.classList.toggle('is-locked', locked);
+    feature.classList.toggle('is-unlocked', !locked);
+  });
 };
 
 const completeAuthRedirect = async () => {
@@ -197,6 +276,7 @@ if (logoutButton) {
         : 'Email por confirmar';
     }
     if (adminLink && isAdminEmail(data.session.user.email)) adminLink.hidden = false;
+    updateMembershipView();
   }
 
   logoutButton.addEventListener('click', async () => {

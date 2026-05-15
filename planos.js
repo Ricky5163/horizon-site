@@ -37,6 +37,7 @@ const startCheckout = async (plan) => {
   }
 
   try {
+    localStorage.setItem('horizon_checkout_plan', plan);
     window.location.href = checkoutUrlFor(paymentLink, data.session);
   } catch (error) {
     setMessage('O link Stripe deste plano ainda nao esta valido. Confirma o URL em stripe-config.js.', 'error');

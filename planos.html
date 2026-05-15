@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=stripe-plans-20260515" />
+    <link rel="stylesheet" href="styles.css?v=plan-features-20260515" />
   </head>
   <body>
     <main class="site-shell inner-page plans-page">
@@ -48,11 +48,12 @@
         <article class="price-panel plan-card-option">
           <span class="eyebrow">ESSENCIAL</span>
           <h2>Gratis</h2>
-          <p>Para criar conta, testar a experiencia e ouvir praticas introdutorias.</p>
+          <p>Para criar conta, experimentar a biblioteca e criar uma rotina inicial.</p>
           <ul class="plan-benefits">
             <li>Conta Horizon</li>
-            <li>Audios gratuitos selecionados</li>
-            <li>Dashboard pessoal</li>
+            <li>3 audios introdutorios</li>
+            <li>Dashboard pessoal basico</li>
+            <li>Recomendacoes para comecar</li>
           </ul>
           <a class="button button-ghost" href="entrar.html">Criar conta</a>
         </article>
@@ -65,7 +66,8 @@
           <ul class="plan-benefits">
             <li>Biblioteca completa de audios</li>
             <li>Novas praticas todas as semanas</li>
-            <li>Sons de sono e series guiadas</li>
+            <li>Sons de sono, foco e ansiedade</li>
+            <li>Favoritos e historico de pratica</li>
             <li>Acesso em qualquer dispositivo</li>
           </ul>
           <button class="button button-primary" type="button" data-stripe-plan="plus">Subscrever mensal</button>
@@ -78,7 +80,8 @@
           <ul class="plan-benefits">
             <li>Tudo do Horizon Plus</li>
             <li>Poupanca face ao mensal</li>
-            <li>Renovacao anual simples</li>
+            <li>Series sazonais e programas especiais</li>
+            <li>Prioridade em novidades e suporte</li>
           </ul>
           <button class="button button-secondary" type="button" data-stripe-plan="annual">Escolher anual</button>
         </article>
@@ -86,11 +89,57 @@
 
       <p class="auth-message plans-message" data-plan-message aria-live="polite"></p>
 
+      <section class="plan-feature-matrix" aria-label="Comparacao de planos">
+        <div class="section-copy">
+          <span class="eyebrow">FUNCIONALIDADES</span>
+          <h2>O que cada plano desbloqueia.</h2>
+          <p>O plano gratis serve para entrar com calma. Os planos pagos desbloqueiam a pratica completa e ferramentas para acompanhar a tua evolucao.</p>
+        </div>
+        <div class="feature-table" role="table" aria-label="Funcionalidades por plano">
+          <div class="feature-row feature-row-head" role="row">
+            <span role="columnheader">Funcionalidade</span>
+            <strong role="columnheader">Gratis</strong>
+            <strong role="columnheader">Plus</strong>
+            <strong role="columnheader">Anual</strong>
+          </div>
+          <div class="feature-row" role="row">
+            <span role="cell">Audios introdutorios</span>
+            <strong role="cell">Sim</strong>
+            <strong role="cell">Sim</strong>
+            <strong role="cell">Sim</strong>
+          </div>
+          <div class="feature-row" role="row">
+            <span role="cell">Biblioteca completa</span>
+            <strong role="cell">-</strong>
+            <strong role="cell">Sim</strong>
+            <strong role="cell">Sim</strong>
+          </div>
+          <div class="feature-row" role="row">
+            <span role="cell">Favoritos e historico</span>
+            <strong role="cell">-</strong>
+            <strong role="cell">Sim</strong>
+            <strong role="cell">Sim</strong>
+          </div>
+          <div class="feature-row" role="row">
+            <span role="cell">Programas especiais</span>
+            <strong role="cell">-</strong>
+            <strong role="cell">-</strong>
+            <strong role="cell">Sim</strong>
+          </div>
+          <div class="feature-row" role="row">
+            <span role="cell">Suporte prioritario</span>
+            <strong role="cell">-</strong>
+            <strong role="cell">-</strong>
+            <strong role="cell">Sim</strong>
+          </div>
+        </div>
+      </section>
+
       <section class="plans-detail-grid">
         <article class="content-panel">
           <span class="line-icon headphones-icon"></span>
-          <h2>O que fica incluido</h2>
-          <p>Acesso a meditacoes guiadas, respiracao, sono, foco, ansiedade e autoestima. A biblioteca cresce sem precisares de atualizar nada.</p>
+          <h2>Biblioteca viva</h2>
+          <p>Meditacao, respiracao, sono, foco, ansiedade e autoestima. Os planos pagos recebem novas praticas sem precisares de atualizar nada.</p>
         </article>
         <article class="content-panel">
           <span class="line-icon shield-icon"></span>
@@ -100,6 +149,6 @@
       </section>
     </main>
     <script type="module" src="nav-session.js?v=20260513"></script>
-    <script type="module" src="planos.js?v=stripe-plans-20260515"></script>
+    <script type="module" src="planos.js?v=plan-features-20260515"></script>
   </body>
 </html>

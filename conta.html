@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=user-dashboard-20260513" />
+    <link rel="stylesheet" href="styles.css?v=plan-features-20260515" />
   </head>
   <body>
     <main class="site-shell inner-page">
@@ -69,11 +69,12 @@
           </div>
         </article>
 
-        <article class="account-card plan-card">
+        <article class="account-card plan-card plan-status-card">
           <span class="eyebrow">PLANO</span>
-          <h2>Horizon Free</h2>
-          <p>Acesso inicial a praticas essenciais. Em breve vais poder gerir subscricao, favoritos e historico.</p>
-          <a class="button button-secondary" href="planos.html">Ver planos</a>
+          <h2 data-account-plan-title>Horizon Free</h2>
+          <p data-account-plan-description>Acesso inicial a praticas essenciais. Faz upgrade para desbloquear a biblioteca completa.</p>
+          <span class="plan-pill" data-account-plan-pill>Free</span>
+          <a class="button button-secondary" href="planos.html" data-account-plan-action>Ver planos</a>
         </article>
 
         <article class="account-card quick-card">
@@ -81,6 +82,38 @@
           <a href="audios.html"><span class="tiny-icon moon-icon"></span>Biblioteca de audios</a>
           <a href="contacto.html"><span class="tiny-icon heart-icon"></span>Falar com suporte</a>
         </article>
+      </section>
+
+      <section class="account-card membership-section">
+        <div class="membership-head">
+          <div>
+            <span class="eyebrow">ACESSO</span>
+            <h2>Funcionalidades do teu plano.</h2>
+          </div>
+          <p data-checkout-message></p>
+        </div>
+        <div class="membership-grid" data-membership-grid>
+          <article class="membership-feature" data-plan-feature="free">
+            <span class="tiny-icon headphones-icon"></span>
+            <strong>Audios introdutorios</strong>
+            <small>Praticas selecionadas para comecar.</small>
+          </article>
+          <article class="membership-feature is-locked" data-plan-feature="plus">
+            <span class="tiny-icon moon-icon"></span>
+            <strong>Biblioteca completa</strong>
+            <small>Sono, foco, ansiedade e series guiadas.</small>
+          </article>
+          <article class="membership-feature is-locked" data-plan-feature="plus">
+            <span class="tiny-icon heart-icon"></span>
+            <strong>Favoritos e historico</strong>
+            <small>Guarda praticas e acompanha progresso.</small>
+          </article>
+          <article class="membership-feature is-locked" data-plan-feature="annual">
+            <span class="tiny-icon star-icon"></span>
+            <strong>Programas especiais</strong>
+            <small>Conteudos sazonais e prioridade em novidades.</small>
+          </article>
+        </div>
       </section>
 
       <section class="account-card saved-section">
@@ -95,6 +128,6 @@
         </div>
       </section>
     </main>
-    <script type="module" src="auth.js?v=session-dashboard-20260513"></script>
+    <script type="module" src="auth.js?v=plan-features-20260515"></script>
   </body>
 </html>

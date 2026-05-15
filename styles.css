@@ -1192,6 +1192,54 @@ button {
   margin-top: 22px;
 }
 
+.plan-feature-matrix {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 28px;
+  max-width: 1120px;
+  margin: 34px auto 0;
+}
+
+.feature-table {
+  overflow: hidden;
+  border: 1px solid rgba(126, 174, 255, 0.18);
+  border-radius: 12px;
+  background: rgba(2, 11, 28, 0.42);
+}
+
+.feature-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) repeat(3, minmax(72px, 0.36fr));
+  gap: 12px;
+  align-items: center;
+  min-height: 58px;
+  padding: 0 18px;
+  border-bottom: 1px solid rgba(126, 174, 255, 0.13);
+}
+
+.feature-row:last-child {
+  border-bottom: 0;
+}
+
+.feature-row span {
+  color: #eaf1ff;
+}
+
+.feature-row strong {
+  color: var(--blue-300);
+  text-align: center;
+}
+
+.feature-row-head {
+  min-height: 52px;
+  background: rgba(49, 113, 209, 0.18);
+}
+
+.feature-row-head span,
+.feature-row-head strong {
+  color: #fff;
+}
+
 .contact-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
@@ -1354,6 +1402,7 @@ button {
 
 .account-hero,
 .account-grid,
+.membership-section,
 .saved-section {
   max-width: 1120px;
   margin-inline: auto;
@@ -1433,6 +1482,20 @@ button {
   align-content: start;
   gap: 16px;
   padding: 30px;
+}
+
+.plan-status-card {
+  position: relative;
+}
+
+.plan-pill {
+  width: fit-content;
+  padding: 8px 12px;
+  color: #061832;
+  border-radius: 999px;
+  background: #dcecff;
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .continue-card {
@@ -1518,6 +1581,84 @@ button {
   gap: 22px;
   margin-top: 18px;
   padding: 30px;
+}
+
+.membership-section {
+  display: grid;
+  gap: 22px;
+  margin-top: 18px;
+  padding: 30px;
+}
+
+.membership-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.membership-head h2 {
+  margin: 10px 0 0;
+  font-size: 28px;
+}
+
+.membership-head p {
+  max-width: 330px;
+  margin: 0;
+  color: #9ff0c4;
+  text-align: right;
+}
+
+.membership-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.membership-feature {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-height: 158px;
+  padding: 18px;
+  border: 1px solid rgba(126, 174, 255, 0.18);
+  border-radius: 10px;
+  background: rgba(2, 11, 28, 0.42);
+}
+
+.membership-feature strong {
+  color: #fff;
+}
+
+.membership-feature small {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.membership-feature.is-locked {
+  opacity: 0.56;
+}
+
+.membership-feature.is-locked::after {
+  width: fit-content;
+  padding: 6px 9px;
+  color: #dbe7ff;
+  border: 1px solid rgba(126, 174, 255, 0.24);
+  border-radius: 999px;
+  content: "Bloqueado";
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.membership-feature.is-unlocked::after {
+  width: fit-content;
+  padding: 6px 9px;
+  color: #061832;
+  border-radius: 999px;
+  background: #9ff0c4;
+  content: "Disponivel";
+  font-size: 11px;
+  font-weight: 800;
 }
 
 .saved-list {
@@ -1754,8 +1895,14 @@ button {
   .account-hero,
   .account-grid,
   .saved-list,
-  .plans-detail-grid {
+  .plans-detail-grid,
+  .plan-feature-matrix,
+  .membership-grid {
     grid-template-columns: 1fr;
+  }
+
+  .feature-row {
+    grid-template-columns: minmax(150px, 1fr) repeat(3, minmax(58px, 0.36fr));
   }
 
   .admin-layout {
@@ -1880,12 +2027,32 @@ button {
     align-items: flex-start;
   }
 
+  .membership-head {
+    display: grid;
+  }
+
+  .membership-head p {
+    max-width: none;
+    text-align: left;
+  }
+
   .account-card,
   .continue-card,
   .plan-card,
   .quick-card,
+  .membership-section,
   .saved-section {
     padding: 24px;
+  }
+}
+
+@media (max-width: 560px) {
+  .feature-table {
+    overflow-x: auto;
+  }
+
+  .feature-row {
+    min-width: 560px;
   }
 }
 
