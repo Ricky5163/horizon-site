@@ -157,7 +157,7 @@ const createAudioRow = (audio) => {
           await deleteR2Object(audio.object_key, session.access_token);
           setListMessage('Audio removido da biblioteca e do R2.', 'success');
         } catch (r2Error) {
-          setListMessage(`${r2Error.message} O audio ja saiu da biblioteca.`, 'success');
+          setListMessage('Audio removido da biblioteca. O ficheiro no R2 pode ser apagado depois.', 'success');
         }
       } else {
         setListMessage('Audio removido da biblioteca.', 'success');
