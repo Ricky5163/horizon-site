@@ -1,0 +1,20 @@
+name = "horizon-stripe-webhook"
+main = "stripe-webhook-worker.js"
+compatibility_date = "2026-05-15"
+
+[vars]
+STRIPE_CURRENCY = "eur"
+PLUS_AMOUNT_CENTS = "999"
+ANNUAL_AMOUNT_CENTS = "7999"
+DATA_ENCRYPTION_KEY_VERSION = "v1"
+
+# Optional:
+# STRIPE_PLUS_PAYMENT_LINK_ID = "plink_..."
+# STRIPE_ANNUAL_PAYMENT_LINK_ID = "plink_..."
+
+# Add these as secrets, not vars:
+# SUPABASE_URL
+# SUPABASE_SERVICE_ROLE_KEY
+# STRIPE_WEBHOOK_SECRET
+# DATA_ENCRYPTION_KEY
+# RESEND_API_KEY

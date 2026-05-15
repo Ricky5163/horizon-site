@@ -90,10 +90,29 @@ const resolveAccountPlan = () => {
   return { plan: normalizePlan(localStorage.getItem('horizon_active_plan')), justPaid: false };
 };
 
-const updateMembershipView = () => {
+const loadStoredSubscriptionPlan = async (userId) => {
+  if (!userId) return null;
+
+  const { data, error } = await supabase
+    .from('user_subscriptions')
+    .select('plan, status, current_period_end')
+    .eq('user_id', userId)
+    .order('updated_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error || !data) return null;
+  if (!['active', 'trialing'].includes(data.status)) return 'free';
+  return normalizePlan(data.plan);
+};
+
+const updateMembershipView = async (userId) => {
   if (!accountPlanTitle) return;
 
-  const { plan, justPaid } = resolveAccountPlan();
+  const localPlan = resolveAccountPlan();
+  const storedPlan = await loadStoredSubscriptionPlan(userId);
+  const plan = storedPlan || localPlan.plan;
+  const justPaid = localPlan.justPaid;
   const copy = planCopy[plan];
 
   accountPlanTitle.textContent = copy.title;
@@ -276,7 +295,7 @@ if (logoutButton) {
         : 'Email por confirmar';
     }
     if (adminLink && isAdminEmail(data.session.user.email)) adminLink.hidden = false;
-    updateMembershipView();
+    await updateMembershipView(data.session.user.id);
   }
 
   logoutButton.addEventListener('click', async () => {
