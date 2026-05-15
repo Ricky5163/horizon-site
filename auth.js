@@ -31,6 +31,15 @@ const pageUrl = (path) => new URL(path, `${siteOrigin}/`).href;
 const isAdminEmail = (email = '') => SUPABASE_ADMIN_EMAILS.map((item) => item.toLowerCase()).includes(email.toLowerCase());
 const displayNameFromEmail = (email = '') => email.split('@')[0]?.replace(/[._-]+/g, ' ') || 'utilizador';
 const wait = (duration) => new Promise((resolve) => setTimeout(resolve, duration));
+const afterLoginPath = (email = '') => {
+  const pendingPlan = localStorage.getItem('horizon_checkout_plan');
+  if (pendingPlan && !isAdminEmail(email)) {
+    localStorage.removeItem('horizon_checkout_plan');
+    return `planos.html?checkout=${encodeURIComponent(pendingPlan)}`;
+  }
+
+  return isAdminEmail(email) ? 'admin.html' : 'conta.html';
+};
 
 const completeAuthRedirect = async () => {
   if (!isConfigured()) return;
@@ -97,7 +106,7 @@ const redirectIfLoggedIn = async () => {
   await completeAuthRedirect();
   await waitForImplicitSession();
   const { data } = await supabase.auth.getSession();
-  if (data.session) window.location.href = isAdminEmail(data.session.user.email) ? 'admin.html' : 'conta.html';
+  if (data.session) window.location.href = afterLoginPath(data.session.user.email);
 };
 
 tabs.forEach((tab) => {
@@ -141,7 +150,7 @@ authForm?.addEventListener('submit', async (event) => {
     return;
   }
 
-  window.location.href = isAdminEmail(email) ? 'admin.html' : 'conta.html';
+  window.location.href = afterLoginPath(email);
 });
 
 resetButton?.addEventListener('click', async () => {

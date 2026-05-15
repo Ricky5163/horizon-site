@@ -7,56 +7,99 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=admin-20260513" />
+    <link rel="stylesheet" href="styles.css?v=stripe-plans-20260515" />
   </head>
   <body>
-    <main class="site-shell inner-page">
-      <header class="topbar page-topbar" aria-label="Navegação principal">
-        <a class="brand" href="index.html" aria-label="Horizon início">
+    <main class="site-shell inner-page plans-page">
+      <header class="topbar page-topbar" aria-label="Navegacao principal">
+        <a class="brand" href="index.html" aria-label="Horizon inicio">
           <span class="brand-mark"><span class="mark-lines"></span></span>
-          <span class="brand-text"><span>HORIZON</span><small>O TEU ESPAÇO INTERIOR</small></span>
+          <span class="brand-text"><span>HORIZON</span><small>O TEU ESPACO INTERIOR</small></span>
         </a>
-        <nav class="nav-links" aria-label="Secções">
-          <a href="index.html">Início</a>
+        <nav class="nav-links" aria-label="Seccoes">
+          <a href="index.html">Inicio</a>
           <a href="sobre.html">Sobre</a>
-          <a href="audios.html">Áudios</a>
+          <a href="audios.html">Audios</a>
           <a class="active" href="planos.html">Planos</a>
           <a href="blogue.html">Blogue</a>
           <a href="contacto.html">Contacto</a>
         </nav>
         <div class="nav-actions">
           <a class="login" href="entrar.html">Entrar</a>
-          <a class="button button-primary" href="planos.html">Começar agora</a>
+          <a class="button button-primary" href="planos.html">Comecar agora</a>
         </div>
       </header>
 
-      <section class="page-hero compact">
+      <section class="page-hero compact plans-hero">
         <span class="eyebrow">PLANOS</span>
         <h1>Escolhe o teu ritmo.</h1>
-        <p>Começa com práticas essenciais ou desbloqueia a experiência completa Horizon.</p>
+        <p>Comeca gratis e, quando fizer sentido, desbloqueia a biblioteca completa com pagamento seguro por Stripe.</p>
       </section>
 
-      <section class="pricing-grid">
-        <article class="price-panel">
+      <section class="billing-strip" aria-label="Pagamento">
+        <span class="line-icon shield-icon"></span>
+        <div>
+          <strong>Pagamento seguro</strong>
+          <p>Os pagamentos sao processados pelo Stripe. A Horizon nao guarda dados do cartao.</p>
+        </div>
+      </section>
+
+      <section class="pricing-grid enhanced-pricing">
+        <article class="price-panel plan-card-option">
           <span class="eyebrow">ESSENCIAL</span>
-          <h2>Grátis</h2>
-          <p>Sessões introdutórias para conheceres a experiência.</p>
-          <a class="button button-ghost" href="entrar.html">Entrar</a>
+          <h2>Gratis</h2>
+          <p>Para criar conta, testar a experiencia e ouvir praticas introdutorias.</p>
+          <ul class="plan-benefits">
+            <li>Conta Horizon</li>
+            <li>Audios gratuitos selecionados</li>
+            <li>Dashboard pessoal</li>
+          </ul>
+          <a class="button button-ghost" href="entrar.html">Criar conta</a>
         </article>
-        <article class="price-panel featured">
+
+        <article class="price-panel plan-card-option featured">
+          <span class="plan-badge">Mais escolhido</span>
           <span class="eyebrow">HORIZON PLUS</span>
-          <h2>9,99€ / mês</h2>
-          <p>Biblioteca completa, sons de sono, séries guiadas e novos áudios todas as semanas.</p>
-          <a class="button button-primary" href="entrar.html">Começar agora</a>
+          <h2>9,99 EUR <small>/ mes</small></h2>
+          <p>Para quem quer usar a biblioteca completa no dia a dia.</p>
+          <ul class="plan-benefits">
+            <li>Biblioteca completa de audios</li>
+            <li>Novas praticas todas as semanas</li>
+            <li>Sons de sono e series guiadas</li>
+            <li>Acesso em qualquer dispositivo</li>
+          </ul>
+          <button class="button button-primary" type="button" data-stripe-plan="plus">Subscrever mensal</button>
         </article>
-        <article class="price-panel">
+
+        <article class="price-panel plan-card-option">
           <span class="eyebrow">ANUAL</span>
-          <h2>79,99€ / ano</h2>
-          <p>O plano completo com o melhor valor para uma prática consistente.</p>
-          <a class="button button-secondary" href="entrar.html">Escolher anual</a>
+          <h2>79,99 EUR <small>/ ano</small></h2>
+          <p>O plano completo com melhor valor para uma pratica consistente.</p>
+          <ul class="plan-benefits">
+            <li>Tudo do Horizon Plus</li>
+            <li>Poupanca face ao mensal</li>
+            <li>Renovacao anual simples</li>
+          </ul>
+          <button class="button button-secondary" type="button" data-stripe-plan="annual">Escolher anual</button>
+        </article>
+      </section>
+
+      <p class="auth-message plans-message" data-plan-message aria-live="polite"></p>
+
+      <section class="plans-detail-grid">
+        <article class="content-panel">
+          <span class="line-icon headphones-icon"></span>
+          <h2>O que fica incluido</h2>
+          <p>Acesso a meditacoes guiadas, respiracao, sono, foco, ansiedade e autoestima. A biblioteca cresce sem precisares de atualizar nada.</p>
+        </article>
+        <article class="content-panel">
+          <span class="line-icon shield-icon"></span>
+          <h2>Gestao simples</h2>
+          <p>Depois ligamos o Portal do Cliente Stripe para alterar cartao, ver faturas ou cancelar a subscricao diretamente pela conta.</p>
         </article>
       </section>
     </main>
     <script type="module" src="nav-session.js?v=20260513"></script>
+    <script type="module" src="planos.js?v=stripe-plans-20260515"></script>
   </body>
 </html>

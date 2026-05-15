@@ -1079,6 +1079,13 @@ button {
   font-size: 32px;
 }
 
+.price-panel h2 small {
+  color: var(--muted);
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+
 .price-panel .button {
   width: fit-content;
   margin-top: 8px;
@@ -1088,6 +1095,101 @@ button {
   border-color: rgba(111, 171, 255, 0.72);
   background: linear-gradient(180deg, rgba(19, 65, 126, 0.82), rgba(4, 21, 48, 0.72));
   transform: translateY(-14px);
+}
+
+.plans-hero {
+  margin-bottom: 26px;
+}
+
+.billing-strip,
+.plans-detail-grid {
+  max-width: 1120px;
+  margin-inline: auto;
+}
+
+.billing-strip {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 22px;
+  padding: 20px 24px;
+  border: 1px solid rgba(126, 174, 255, 0.18);
+  border-radius: 12px;
+  background: rgba(2, 11, 28, 0.42);
+}
+
+.billing-strip strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.billing-strip p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.enhanced-pricing {
+  align-items: stretch;
+}
+
+.plan-card-option {
+  position: relative;
+  min-height: 455px;
+}
+
+.plan-card-option .button {
+  align-self: end;
+}
+
+.plan-badge {
+  width: fit-content;
+  padding: 8px 12px;
+  color: #061832;
+  border-radius: 999px;
+  background: #dcecff;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.plan-benefits {
+  display: grid;
+  gap: 11px;
+  margin: 4px 0 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.plan-benefits li {
+  position: relative;
+  padding-left: 24px;
+  color: #dbe7ff;
+  line-height: 1.45;
+}
+
+.plan-benefits li::before {
+  position: absolute;
+  left: 0;
+  top: 0.18em;
+  width: 15px;
+  height: 15px;
+  content: "";
+  border-radius: 50%;
+  background:
+    linear-gradient(135deg, transparent 0 42%, #061832 43% 56%, transparent 57%),
+    var(--blue-300);
+}
+
+.plans-message {
+  max-width: 760px;
+  margin: 20px auto 0;
+}
+
+.plans-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 22px;
 }
 
 .contact-layout {
@@ -1651,7 +1753,8 @@ button {
 
   .account-hero,
   .account-grid,
-  .saved-list {
+  .saved-list,
+  .plans-detail-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1771,6 +1874,10 @@ button {
 
   .price-panel.featured {
     transform: none;
+  }
+
+  .billing-strip {
+    align-items: flex-start;
   }
 
   .account-card,
