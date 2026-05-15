@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=r2-audio-20260515" />
+    <link rel="stylesheet" href="styles.css?v=admin-remove-audios-20260515" />
   </head>
   <body>
     <main class="site-shell inner-page admin-page">
@@ -77,7 +77,21 @@
           <a class="button button-secondary" href="audios.html">Ver biblioteca</a>
         </aside>
       </section>
+
+      <section class="content-panel admin-library-panel">
+        <div class="admin-section-head">
+          <div>
+            <span class="eyebrow">BIBLIOTECA</span>
+            <h2>Audios publicados.</h2>
+          </div>
+          <button class="button button-secondary admin-refresh" type="button" data-audios-refresh>Atualizar</button>
+        </div>
+        <div class="admin-audio-list" data-admin-audio-list>
+          <p class="admin-empty">A carregar audios...</p>
+        </div>
+        <p class="auth-message" data-admin-list-message aria-live="polite"></p>
+      </section>
     </main>
-    <script type="module" src="admin.js?v=r2-audio-20260515"></script>
+    <script type="module" src="admin.js?v=admin-remove-audios-20260515"></script>
   </body>
 </html>

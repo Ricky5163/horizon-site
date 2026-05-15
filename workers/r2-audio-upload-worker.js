@@ -6,7 +6,7 @@ const corsHeaders = (origin, env) => {
 
   return {
     'Access-Control-Allow-Origin': allowOrigin,
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Methods': 'POST, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Authorization, Content-Type',
     'Access-Control-Max-Age': '86400',
   };
@@ -38,7 +38,7 @@ export default {
       return new Response(null, { headers: corsHeaders(origin, env) });
     }
 
-    if (request.method !== 'POST') {
+    if (!['POST', 'DELETE'].includes(request.method)) {
       return json({ error: 'Metodo nao permitido.' }, 405, origin, env);
     }
 
@@ -61,6 +61,18 @@ export default {
       .map((email) => email.trim().toLowerCase());
     if (!adminEmails.includes(String(user.email || '').toLowerCase())) {
       return json({ error: 'Acesso admin necessario.' }, 403, origin, env);
+    }
+
+    if (request.method === 'DELETE') {
+      const body = await request.json().catch(() => ({}));
+      const key = slugKey(String(body.key || ''));
+
+      if (!key) {
+        return json({ error: 'Chave do ficheiro em falta.' }, 400, origin, env);
+      }
+
+      await env.AUDIO_BUCKET.delete(key);
+      return json({ ok: true, key }, 200, origin, env);
     }
 
     const formData = await request.formData();

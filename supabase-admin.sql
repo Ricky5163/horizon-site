@@ -19,6 +19,12 @@ create policy "Published audios are public"
 on public.audios for select
 using (is_published = true);
 
+create policy "Admins can select audios"
+on public.audios for select
+using (
+  auth.jwt() ->> 'email' in ('admin@horizon.pt')
+);
+
 create policy "Admins can insert audios"
 on public.audios for insert
 with check (

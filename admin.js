@@ -9,6 +9,9 @@ const submit = document.querySelector('[data-admin-submit]');
 const emailNode = document.querySelector('[data-admin-email]');
 const allowlistNode = document.querySelector('[data-admin-allowlist]');
 const logoutButton = document.querySelector('[data-logout]');
+const audioList = document.querySelector('[data-admin-audio-list]');
+const listMessage = document.querySelector('[data-admin-list-message]');
+const refreshButton = document.querySelector('[data-audios-refresh]');
 
 const normalizedAdmins = SUPABASE_ADMIN_EMAILS.map((email) => email.toLowerCase());
 
@@ -16,6 +19,12 @@ const setMessage = (text, type = 'info') => {
   if (!message) return;
   message.textContent = text;
   message.dataset.type = type;
+};
+
+const setListMessage = (text, type = 'info') => {
+  if (!listMessage) return;
+  listMessage.textContent = text;
+  listMessage.dataset.type = type;
 };
 
 const setLoading = (loading) => {
@@ -78,7 +87,125 @@ const uploadAudio = async (file, title, accessToken) => {
   return result;
 };
 
-await requireAdminSession();
+const deleteR2Object = async (objectKey, accessToken) => {
+  if (!objectKey || !R2_UPLOAD_ENDPOINT) return;
+
+  const response = await fetch(R2_UPLOAD_ENDPOINT, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ key: objectKey }),
+  });
+
+  if (!response.ok) {
+    const result = await response.json().catch(() => ({}));
+    throw new Error(result.error || 'Audio removido do site, mas nao foi possivel apagar o ficheiro no R2.');
+  }
+};
+
+const createAudioRow = (audio) => {
+  const row = document.createElement('article');
+  row.className = 'admin-audio-row';
+
+  const details = document.createElement('div');
+  details.className = 'admin-audio-details';
+
+  const title = document.createElement('strong');
+  title.textContent = audio.title;
+
+  const meta = document.createElement('span');
+  meta.textContent = `${audio.category || 'Sem categoria'} - ${audio.duration_minutes || '-'} min - ${audio.is_published ? 'Publicado' : 'Oculto'}`;
+
+  const url = document.createElement('small');
+  url.textContent = audio.object_key || audio.audio_url || 'Sem ficheiro associado';
+
+  details.append(title, meta, url);
+
+  const actions = document.createElement('div');
+  actions.className = 'admin-audio-actions';
+
+  const listen = document.createElement('a');
+  listen.className = 'button button-secondary admin-small-button';
+  listen.href = audio.audio_url;
+  listen.target = '_blank';
+  listen.rel = 'noreferrer';
+  listen.textContent = 'Ouvir';
+
+  const remove = document.createElement('button');
+  remove.className = 'button admin-danger-button';
+  remove.type = 'button';
+  remove.textContent = 'Remover';
+  remove.addEventListener('click', async () => {
+    const confirmed = window.confirm(`Remover "${audio.title}" da biblioteca?`);
+    if (!confirmed) return;
+
+    remove.disabled = true;
+    remove.textContent = 'A remover...';
+    setListMessage('');
+
+    try {
+      const session = await requireAdminSession();
+      if (!session) return;
+
+      const { error } = await supabase.from('audios').delete().eq('id', audio.id);
+      if (error) throw error;
+
+      if (audio.object_key) {
+        try {
+          await deleteR2Object(audio.object_key, session.access_token);
+          setListMessage('Audio removido da biblioteca e do R2.', 'success');
+        } catch (r2Error) {
+          setListMessage(`${r2Error.message} O audio ja saiu da biblioteca.`, 'success');
+        }
+      } else {
+        setListMessage('Audio removido da biblioteca.', 'success');
+      }
+
+      row.remove();
+      if (audioList && !audioList.querySelector('.admin-audio-row')) {
+        audioList.innerHTML = '<p class="admin-empty">Ainda nao ha audios na biblioteca.</p>';
+      }
+    } catch (error) {
+      setListMessage(error.message || 'Nao foi possivel remover o audio.', 'error');
+      remove.disabled = false;
+      remove.textContent = 'Remover';
+    }
+  });
+
+  actions.append(listen, remove);
+  row.append(details, actions);
+  return row;
+};
+
+const loadAdminAudios = async () => {
+  if (!audioList) return;
+
+  audioList.innerHTML = '<p class="admin-empty">A carregar audios...</p>';
+  setListMessage('');
+
+  const { data, error } = await supabase
+    .from('audios')
+    .select('id, title, category, duration_minutes, audio_url, object_key, is_published, created_at')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    audioList.innerHTML = '<p class="admin-empty">Nao foi possivel carregar a lista.</p>';
+    setListMessage(error.message, 'error');
+    return;
+  }
+
+  if (!data?.length) {
+    audioList.innerHTML = '<p class="admin-empty">Ainda nao ha audios na biblioteca.</p>';
+    return;
+  }
+
+  audioList.replaceChildren(...data.map(createAudioRow));
+};
+
+const session = await requireAdminSession();
+if (session) await loadAdminAudios();
 
 logoutButton?.addEventListener('click', async () => {
   await supabase.auth.signOut();
@@ -129,9 +256,12 @@ form?.addEventListener('submit', async (event) => {
     form.reset();
     form.querySelector('input[name="is_published"]').checked = true;
     setMessage('Audio guardado na biblioteca.', 'success');
+    await loadAdminAudios();
   } catch (error) {
     setMessage(error.message || 'Nao foi possivel guardar o audio.', 'error');
   } finally {
     setLoading(false);
   }
 });
+
+refreshButton?.addEventListener('click', loadAdminAudios);
