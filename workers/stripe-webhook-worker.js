@@ -209,7 +209,7 @@ const emailHtml = ({ plan, amount, currency }) => {
         <p style="line-height:1.7;color:#dbe7ff;margin:0 0 22px;"><strong>Plano:</strong> ${planName}<br><strong>Valor:</strong> ${price}</p>
         <a href="https://horizonaudios.com/conta.html" style="display:inline-block;background:#2377dc;color:#fff;text-decoration:none;border-radius:999px;padding:14px 22px;font-weight:700;">Abrir dashboard</a>
       </div>
-      <p style="color:#aebbd4;font-size:12px;line-height:1.6;margin-top:20px;text-align:center;">Se tiveres alguma pergunta, responde para info@horizonaudios.com.</p>
+      <p style="color:#aebbd4;font-size:12px;line-height:1.6;margin-top:20px;text-align:center;">Se tiveres alguma pergunta, escreve para suporte@horizonaudios.com.</p>
     </div>
   </body>
 </html>`;
