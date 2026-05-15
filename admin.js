@@ -1,5 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_ADMIN_EMAILS, SUPABASE_ANON_KEY, SUPABASE_URL } from './supabase-config.js';
+import { R2_UPLOAD_ENDPOINT, SUPABASE_ADMIN_EMAILS, SUPABASE_ANON_KEY, SUPABASE_URL } from './supabase-config.js';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -52,20 +52,30 @@ const requireAdminSession = async () => {
   return session;
 };
 
-const uploadAudio = async (file, title) => {
+const uploadAudio = async (file, title, accessToken) => {
+  if (!R2_UPLOAD_ENDPOINT) {
+    throw new Error('Configura o R2_UPLOAD_ENDPOINT em supabase-config.js ou usa um URL de audio.');
+  }
+
   const safeName = slugify(title || file.name.replace(/\.[^.]+$/, '')) || 'audio';
   const extension = file.name.includes('.') ? file.name.split('.').pop() : 'mp3';
-  const path = `${Date.now()}-${safeName}.${extension}`;
+  const objectKey = `audios/${Date.now()}-${safeName}.${extension}`;
+  const body = new FormData();
+  body.append('file', file);
+  body.append('key', objectKey);
 
-  const { error } = await supabase.storage.from('audios').upload(path, file, {
-    cacheControl: '3600',
-    upsert: false,
+  const response = await fetch(R2_UPLOAD_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body,
   });
 
-  if (error) throw error;
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(result.error || 'Nao foi possivel carregar o audio para R2.');
 
-  const { data } = supabase.storage.from('audios').getPublicUrl(path);
-  return data.publicUrl;
+  return result;
 };
 
 await requireAdminSession();
@@ -87,9 +97,12 @@ form?.addEventListener('submit', async (event) => {
     const formData = new FormData(form);
     const file = formData.get('audio_file');
     let audioUrl = String(formData.get('audio_url') || '').trim();
+    let objectKey = '';
 
     if (file instanceof File && file.size > 0) {
-      audioUrl = await uploadAudio(file, String(formData.get('title') || 'audio'));
+      const uploaded = await uploadAudio(file, String(formData.get('title') || 'audio'), session.access_token);
+      audioUrl = uploaded.url;
+      objectKey = uploaded.key;
     }
 
     if (!audioUrl) {
@@ -103,6 +116,8 @@ form?.addEventListener('submit', async (event) => {
       category: String(formData.get('category')),
       duration_minutes: Number(formData.get('duration_minutes')),
       audio_url: audioUrl,
+      storage_provider: objectKey ? 'r2' : 'external',
+      object_key: objectKey || null,
       cover_style: String(formData.get('cover_style')),
       is_published: formData.get('is_published') === 'on',
       created_by: session.user.id,

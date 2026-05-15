@@ -5,6 +5,8 @@ create table if not exists public.audios (
   category text not null,
   duration_minutes integer not null check (duration_minutes > 0),
   audio_url text not null,
+  storage_provider text not null default 'r2',
+  object_key text,
   cover_style text not null default 'card-night',
   is_published boolean not null default true,
   created_by uuid references auth.users(id),
@@ -38,17 +40,5 @@ using (
   auth.jwt() ->> 'email' in ('admin@horizon.pt')
 );
 
-insert into storage.buckets (id, name, public)
-values ('audios', 'audios', true)
-on conflict (id) do nothing;
-
-create policy "Audio files are public"
-on storage.objects for select
-using (bucket_id = 'audios');
-
-create policy "Admins can upload audio files"
-on storage.objects for insert
-with check (
-  bucket_id = 'audios'
-  and auth.jwt() ->> 'email' in ('admin@horizon.pt')
-);
+alter table public.audios add column if not exists storage_provider text not null default 'r2';
+alter table public.audios add column if not exists object_key text;

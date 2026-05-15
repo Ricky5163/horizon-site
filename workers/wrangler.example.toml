@@ -1,0 +1,14 @@
+name = "horizon-r2-audio-upload"
+main = "r2-audio-upload-worker.js"
+compatibility_date = "2026-05-15"
+
+[[r2_buckets]]
+binding = "AUDIO_BUCKET"
+bucket_name = "horizon-audios"
+
+[vars]
+SUPABASE_URL = "https://lauzvzwhfoqmjhzmigxr.supabase.co"
+SUPABASE_ANON_KEY = "your-supabase-anon-key"
+ADMIN_EMAILS = "admin@horizon.pt"
+ALLOWED_ORIGINS = "https://horizonaudios.com"
+R2_PUBLIC_BASE_URL = "https://audio.horizonaudios.com"

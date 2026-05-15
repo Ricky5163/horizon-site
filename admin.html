@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=admin-20260513" />
+    <link rel="stylesheet" href="styles.css?v=r2-audio-20260515" />
   </head>
   <body>
     <main class="site-shell inner-page admin-page">
@@ -33,7 +33,7 @@
       <section class="page-hero compact">
         <span class="eyebrow">ADMIN</span>
         <h1>Adicionar audio.</h1>
-        <p>Publica uma nova pratica na biblioteca Horizon. O painel grava os dados no Supabase e protege o acesso por email admin.</p>
+        <p>Publica uma nova pratica na biblioteca Horizon. O ficheiro fica no Cloudflare R2 e o Supabase guarda o catalogo para o site ler.</p>
       </section>
 
       <section class="admin-layout">
@@ -62,8 +62,8 @@
             </label>
           </div>
           <label>Descricao<textarea name="description" rows="4" placeholder="Uma pratica curta para voltar ao corpo e respirar melhor."></textarea></label>
-          <label>URL do audio<input name="audio_url" type="url" placeholder="https://..." /></label>
-          <label>Ou carregar ficheiro de audio<input name="audio_file" type="file" accept="audio/*" /></label>
+          <label>URL publico do audio<input name="audio_url" type="url" placeholder="https://audio.horizonaudios.com/audios/..." /></label>
+          <label>Ou carregar ficheiro para R2<input name="audio_file" type="file" accept="audio/*" /></label>
           <label class="check-row"><input name="is_published" type="checkbox" checked /> Publicar na biblioteca</label>
           <button class="button button-primary" type="submit" data-admin-submit>Guardar audio</button>
           <p class="auth-message" data-admin-message aria-live="polite"></p>
@@ -78,6 +78,6 @@
         </aside>
       </section>
     </main>
-    <script type="module" src="admin.js"></script>
+    <script type="module" src="admin.js?v=r2-audio-20260515"></script>
   </body>
 </html>

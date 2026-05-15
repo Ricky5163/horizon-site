@@ -3,6 +3,8 @@ import { SUPABASE_ANON_KEY, SUPABASE_URL } from './supabase-config.js';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const grid = document.querySelector('[data-audio-grid]');
+const player = new Audio();
+let activeButton = null;
 
 const iconFor = (category = '') => {
   const normalized = category.toLowerCase();
@@ -42,14 +44,42 @@ const wirePlayButtons = () => {
     if (button.dataset.boundPlay === 'true') return;
     button.dataset.boundPlay = 'true';
     button.addEventListener('click', () => {
+      const audioSrc = button.dataset.audioSrc;
+
       buttons.forEach((item) => {
-        if (item !== button) item.classList.remove('is-playing');
+        if (item !== button) {
+          item.classList.remove('is-playing');
+          item.setAttribute('aria-pressed', 'false');
+        }
       });
-      button.classList.toggle('is-playing');
-      button.setAttribute('aria-pressed', button.classList.contains('is-playing') ? 'true' : 'false');
+
+      if (!audioSrc) {
+        button.classList.toggle('is-playing');
+        button.setAttribute('aria-pressed', button.classList.contains('is-playing') ? 'true' : 'false');
+        return;
+      }
+
+      if (activeButton === button && !player.paused) {
+        player.pause();
+        button.classList.remove('is-playing');
+        button.setAttribute('aria-pressed', 'false');
+        return;
+      }
+
+      activeButton = button;
+      player.src = audioSrc;
+      player.play();
+      button.classList.add('is-playing');
+      button.setAttribute('aria-pressed', 'true');
     });
   });
 };
+
+player.addEventListener('ended', () => {
+  activeButton?.classList.remove('is-playing');
+  activeButton?.setAttribute('aria-pressed', 'false');
+  activeButton = null;
+});
 
 const loadAudios = async () => {
   if (!grid) return;
