@@ -276,29 +276,34 @@ const handleSubscriptionEvent = async (event, env) => {
 
 export default {
   async fetch(request, env) {
-    if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
+    try {
+      if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
 
-    const payload = await request.text();
-    const stripeSignature = request.headers.get('Stripe-Signature') || '';
-    const verified = await verifyAnyStripeSignature(payload, stripeSignature, env);
-    if (!verified) return json({ error: 'Invalid Stripe signature' }, 400);
+      const payload = await request.text();
+      const stripeSignature = request.headers.get('Stripe-Signature') || '';
+      const verified = await verifyAnyStripeSignature(payload, stripeSignature, env);
+      if (!verified) return json({ error: 'Invalid Stripe signature' }, 400);
 
-    const event = JSON.parse(payload);
-    if (await hasProcessedEvent(event, env)) return json({ received: true, duplicate: true });
+      const event = JSON.parse(payload);
+      if (await hasProcessedEvent(event, env)) return json({ received: true, duplicate: true });
 
-    if (event.type === 'checkout.session.completed') {
-      await handleCheckoutCompleted(event, env);
+      if (event.type === 'checkout.session.completed') {
+        await handleCheckoutCompleted(event, env);
+      }
+
+      if (
+        event.type === 'customer.subscription.created' ||
+        event.type === 'customer.subscription.updated' ||
+        event.type === 'customer.subscription.deleted'
+      ) {
+        await handleSubscriptionEvent(event, env);
+      }
+
+      await markEventProcessed(event, env);
+      return json({ received: true });
+    } catch (error) {
+      console.error(error);
+      return json({ error: error.message || 'Webhook failed' }, 500);
     }
-
-    if (
-      event.type === 'customer.subscription.created' ||
-      event.type === 'customer.subscription.updated' ||
-      event.type === 'customer.subscription.deleted'
-    ) {
-      await handleSubscriptionEvent(event, env);
-    }
-
-    await markEventProcessed(event, env);
-    return json({ received: true });
   },
 };
